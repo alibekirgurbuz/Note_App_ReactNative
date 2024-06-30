@@ -51,14 +51,16 @@ export default function App() {
 
             backgroundColor: pressed ? 'purple' : 'blue',
 
-          },styles.button]}>
-          <Text style={styles.buttonText} >Save </Text>
+          },styles.button]}> 
+
+
+          <Text style={styles.buttonText} >Login </Text>
         </Pressable>
 
             {isLoading
               ? <Loading
-                changeisLoading={()=> setIsLoading(false)} />
-              : null}
+                changeIsLoading={()=> setIsLoading(false)} />
+              : null }
 
     </View>
   );

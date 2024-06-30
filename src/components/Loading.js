@@ -4,15 +4,14 @@ import React from 'react'
 const Loading = ({name, changeIsLoading}) => {
   return (
     <View style={styles.container}>
-    
         <Pressable
-            onPress={()=> props.changeisLoading()}
+            onPress={()=> changeIsLoading()}
             style={[{},styles.closeButtonContainer]} 
         >
             <Text style={styles.closeButton}>X</Text>
         </Pressable>
 
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size={"large"} color={"#0000ff"} />
         <Text style={styles.LoginText}>Loading...</Text>
     </View>
   )
