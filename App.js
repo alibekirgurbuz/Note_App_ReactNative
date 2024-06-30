@@ -4,42 +4,61 @@ import {
   Text,
   View,
   TextInput,
-  Pressable
+  Pressable,
+  Image,
 } from 'react-native';
-import React,{useState} from 'react';
+import React,{useState, useSyncExternalStore} from 'react';
+import Loading from './src/components/Loading';
 
 export default function App() {
 
   const [name, setName] = useState("")
   const [lastname,setLastName] = useState("")
   const [result, setResult] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+
+  console.log(isLoading)
 
   return (
     <View style={styles.container}>
 
-        <Text>Welcome {result}</Text>
-        <Text>Name</Text>
+        <Image
+          source = {require('./assets/images/loginicon.png')}
+          style={styles.image}/>
+          
+
+        <Text style={styles.welcome} >Welcome {result}</Text>
+        <Text>Email</Text>
         <TextInput
-        placeholder='Enter your name'
+        inputMode='email'
+        placeholder='Enter your Email'
         style={styles.textinputstyle}
         onChangeText={setName}
         value={name}
         />
-        <Text>LastName</Text>
+        <Text>Password</Text>
         <TextInput
-        placeholder='Enter your last name'
+        secureTextEntry={true}
+        placeholder='Enter your Password'
         style={styles.textinputstyle}
         onChangeText={setLastName}
         value={lastname}
         />
 
         <Pressable
-          onPress={()=> setResult(name +" "+ lastname)}
+          onPress={() => setIsLoading(true)}
           style={({pressed})=>  [{
-          backgroundColor: pressed ? 'gray' : 'blue',
+
+            backgroundColor: pressed ? 'purple' : 'blue',
+
           },styles.button]}>
           <Text style={styles.buttonText} >Save </Text>
         </Pressable>
+
+            {isLoading
+              ? <Loading
+                changeisLoading={()=> setIsLoading(false)} />
+              : null}
 
     </View>
   );
@@ -60,7 +79,8 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     textAlign: 'center',
     color: 'Black',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    
   },
   button: {
     width:'70%',
@@ -74,5 +94,15 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
   },
+  image: {
+    width: 100,
+    height: 100,
+  },
+  welcome: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  }
+
  
 });
