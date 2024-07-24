@@ -1,12 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { 
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Pressable,
-  Image,
-} from 'react-native';
+import { StyleSheet, Text, View, TextInput, Pressable, Image,} from 'react-native';
 import React,{useState, useSyncExternalStore} from 'react';
 import Loading from '../components/Loading';
 
@@ -16,8 +9,6 @@ const LoginPage= ({navigation}) => {
   const [lastname,setLastName] = useState("")
   const [result, setResult] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-
-  console.log(isLoading)
 
   return (
     <View style={styles.container}>
