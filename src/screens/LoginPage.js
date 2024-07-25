@@ -1,40 +1,37 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, Pressable, Image,} from 'react-native';
 import React,{useState, useSyncExternalStore} from 'react';
-import Loading from '../components/Loading';
+import {Loading, CustomTextInput} from '../components/';
 
 const LoginPage= ({navigation}) => {
 
-  const [name, setName] = useState("")
-  const [lastname,setLastName] = useState("")
+  const [email, setEmail] = useState("")
+  const [password,setPassword] = useState("")
   const [result, setResult] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
   return (
     <View style={styles.container}>
-
+        <Text style={styles.welcome} >Welcome {result}</Text>
         <Image
           source = {require('../../assets/images/loginicon.png')}
           style={styles.image}/>
-          
 
-        <Text style={styles.welcome} >Welcome {result}</Text>
-        <Text>Email</Text>
-        <TextInput
-        inputMode='email'
-        placeholder='Enter your Email'
-        style={styles.textinputstyle}
-        onChangeText={setName}
-        value={name}
-        />
-        <Text>Password</Text>
-        <TextInput
-        secureTextEntry={true}
-        placeholder='Enter your Password'
-        style={styles.textinputstyle}
-        onChangeText={setLastName}
-        value={lastname}
-        />
+
+        <CustomTextInput
+            title="Email"
+            isSecureText={false}
+            handleOnChangeText={setEmail}
+            handleValue={email}
+            handlePleaceholder='Enter your Email'/>
+
+        <CustomTextInput
+            title="Password"
+            isSecureText={true}
+            handleOnChangeText={setPassword}
+            handleValue={password}
+            handlePleaceholder='Enter your Password'/>  
+
 
         <Pressable
           onPress={() => setIsLoading(true)}
@@ -47,10 +44,10 @@ const LoginPage= ({navigation}) => {
         </Pressable>
 
         <Pressable
-          onPress={() => navigation.navigate('SignUp')}
+          onPress={() => navigation.navigate('Signup')}
           style={({pressed})=>  [{
 
-            backgroundColor: pressed ? 'gray' : 'lightgray',
+            backgroundColor: pressed ? 'lightgray' : 'gray',
 
           },styles.signupbutton]}> 
           <Text style={styles.buttonText} >Sign Up </Text>
@@ -76,17 +73,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  textinputstyle: {
-    borderWidth: 1,
-    width:'70%',
-    height: 30,
-    borderRadius: 10,
-    marginVertical: 10,
-    textAlign: 'center',
-    color: 'Black',
-    fontWeight: 'bold',
-    
-  },
   button: {
     width:'70%',
     height: 34,
@@ -94,6 +80,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     alignItems:'center',
     justifyContent: 'center',
+    marginTop:20,
   },
   buttonText: {
     color: 'white',
@@ -102,12 +89,12 @@ const styles = StyleSheet.create({
   image: {
     width: 100,
     height: 100,
-    bottom: 14
+    marginBottom: 20
   },
   welcome: {
     fontSize: 25,
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 30,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -119,7 +106,7 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent: 'center',
     marginTop: 1,
-  }
+  },
 
  
 });
