@@ -1,7 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, Pressable, Image,} from 'react-native';
 import React,{useState, useSyncExternalStore} from 'react';
-import {Loading, CustomTextInput} from '../components/';
+
+import {Loading, CustomTextInput, CustomButton} from '../components/';
+
 
 const LoginPage= ({navigation}) => {
 
@@ -32,27 +34,21 @@ const LoginPage= ({navigation}) => {
             handleValue={password}
             handlePleaceholder='Enter your Password'/>  
 
+        <CustomButton
+            buttonText="Login"
+            setWidth="70%"
+            handleOnpress={() => setIsLoading(true)}
+            buttonColor="blue"
+            pressedButtonColor="gray"
+        />
 
-        <Pressable
-          onPress={() => setIsLoading(true)}
-          style={({pressed})=>  [{
-
-            backgroundColor: pressed ? 'gray' : 'blue',
-
-          },styles.button]}> 
-          <Text style={styles.buttonText} >Login </Text>
-        </Pressable>
-
-        <Pressable
-          onPress={() => navigation.navigate('Signup')}
-          style={({pressed})=>  [{
-
-            backgroundColor: pressed ? 'lightgray' : 'gray',
-
-          },styles.signupbutton]}> 
-          <Text style={styles.buttonText} >Sign Up </Text>
-        </Pressable>
-
+        <CustomButton
+            buttonText="Sign Up"
+            setWidth="40%"
+            handleOnpress={() => navigation.navigate('Signup')}
+            buttonColor="gray"
+            pressedButtonColor="lightgray"
+        />
 
             {isLoading
               ? <Loading
@@ -72,19 +68,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  button: {
-    width:'70%',
-    height: 34,
-    borderRadius: 10,
-    marginVertical: 10,
-    alignItems:'center',
-    justifyContent: 'center',
-    marginTop:20,
-  },
-  buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
   },
   image: {
     width: 100,
@@ -107,6 +90,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 1,
   },
-
- 
 });

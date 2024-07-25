@@ -1,16 +1,16 @@
 import { StyleSheet, Text, Pressable} from 'react-native'
 import React from 'react'
 
-const CustomButton = () => {
+const CustomButton = ({buttonText, setWidth, handleOnpress, buttonColor, pressedButtonColor}) => {
   return (
     <Pressable
-          onPress={() => setIsLoading(true)}
+          onPress={() => handleOnpress()}
           style={({pressed})=>  [{
 
-            backgroundColor: pressed ? 'gray' : 'blue', width:'70%',
+            backgroundColor: pressed ? pressedButtonColor : buttonColor, width:setWidth,
 
           },styles.button]}> 
-          <Text style={styles.buttonText} >Login </Text>
+          <Text style={styles.buttonText}> {buttonText} </Text>
     </Pressable>
   )
 }

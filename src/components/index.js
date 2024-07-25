@@ -5,4 +5,5 @@ import CustomButton from "./CustomButton";
 export {
      Loading,
      CustomTextInput,
+     CustomButton
     };
