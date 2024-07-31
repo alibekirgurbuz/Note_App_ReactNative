@@ -11,6 +11,7 @@ const CustomTextInput = ({title, isSecureText, handleOnChangeText, handleValue, 
             style={styles.textinputstyle}
             onChangeText={handleOnChangeText}
             value={handleValue}
+            handlePleaceholder=""
            />
     </View>
   )

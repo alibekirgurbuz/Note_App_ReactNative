@@ -9,12 +9,11 @@ const LoginPage= ({navigation}) => {
 
   const [email, setEmail] = useState("")
   const [password,setPassword] = useState("")
-  const [result, setResult] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
   return (
     <View style={styles.container}>
-        <Text style={styles.welcome} >Welcome {result}</Text>
+        <Text style={styles.welcome} >Welcome </Text>
         <Image
           source = {require('../../assets/images/loginicon.png')}
           style={styles.image}/>
@@ -25,14 +24,14 @@ const LoginPage= ({navigation}) => {
             isSecureText={false}
             handleOnChangeText={setEmail}
             handleValue={email}
-            handlePleaceholder='Enter your Email'/>
+            handlePleaceholder='Enter Your Email'/>
 
         <CustomTextInput
             title="Password"
             isSecureText={true}
             handleOnChangeText={setPassword}
             handleValue={password}
-            handlePleaceholder='Enter your Password'/>  
+            handlePleaceholder='Enter Your Password'/>  
 
         <CustomButton
             buttonText="Login"
