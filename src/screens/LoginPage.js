@@ -1,15 +1,13 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, Pressable, Image,} from 'react-native';
-import React,{useState, useSyncExternalStore} from 'react';
-
+import { StyleSheet, Text, View, Image,} from 'react-native';
+import React from 'react';
 import {Loading, CustomTextInput, CustomButton} from '../components/';
-
+import {useSelector, useDispatch} from 'react-redux';
+import {setEmail,setPassword, setIsLoading, setLogin} from '../redux/userSlice';
 
 const LoginPage= ({navigation}) => {
 
-  const [email, setEmail] = useState("")
-  const [password,setPassword] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
+  const {email, password, isLoading} = useSelector((state) => state.user)
+  const dispatch = useDispatch()
 
   return (
     <View style={styles.container}>
@@ -22,21 +20,21 @@ const LoginPage= ({navigation}) => {
         <CustomTextInput
             title="Email"
             isSecureText={false}
-            handleOnChangeText={setEmail}
+            handleOnChangeText={(text)=> dispatch(setEmail(text))}
             handleValue={email}
             handlePleaceholder='Enter Your Email'/>
 
         <CustomTextInput
             title="Password"
             isSecureText={true}
-            handleOnChangeText={setPassword}
+            handleOnChangeText={(text)=> dispatch(setPassword(text))}
             handleValue={password}
             handlePleaceholder='Enter Your Password'/>  
 
         <CustomButton
             buttonText="Login"
             setWidth="70%"
-            handleOnpress={() => setIsLoading(true)}
+            handleOnpress={() =>  dispatch(setLogin())}
             buttonColor="blue"
             pressedButtonColor="gray"
         />
@@ -51,7 +49,7 @@ const LoginPage= ({navigation}) => {
 
             {isLoading
               ? <Loading
-                changeIsLoading={()=> setIsLoading(false)} />
+                changeIsLoading={()=> dispatch(setIsLoading(false))} />
               : null }
 
     </View>
