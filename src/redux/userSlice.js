@@ -13,7 +13,7 @@ export const login = createAsyncThunk('user/login', async({email, password}) => 
         const token = user.stsTokenManager.accessToken;
 
         console.log(user)
-        
+
         const userData = {
             token,
             user: user,
@@ -27,8 +27,6 @@ export const login = createAsyncThunk('user/login', async({email, password}) => 
         
     }
 })
-
-
 const initialState = {
     isLoading: false,
     isAuth: false,
