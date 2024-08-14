@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {getAuth, signInWithEmailAndPassword} from 'firebase/auth'
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const login = createAsyncThunk('user/login', async({email, password}) => {
     console.log('username: ', email)
@@ -19,12 +19,31 @@ export const login = createAsyncThunk('user/login', async({email, password}) => 
             user: user,
         }
 
+        await AsyncStorage.setItem("userToken", token)
+
         return userData
 
     } catch (error) {
         console.log("user slice 21 line: ",error)
         throw error
+    }
+})
+
+// Kullanıcı otomatik giriş işlemleri
+
+
+export const autoLogin = createAsyncThunk('user/autoLogin', async() => {
+    try {
+        const token = await AsyncStorage.getItem("userToken")
+        if (token){
+
+            return token
+        }else{
+            throw new Error("User not found")
+        }
         
+    } catch (error) {
+        throw error
     }
 })
 const initialState = {
@@ -67,6 +86,21 @@ export const userSlice = createSlice({
                 state.isLoading = false;
                 state.isAuth = false;
                 state.error = action.error.message;
+            })
+
+            .addCase(autoLogin.pending, (state, action)=>{
+                state.isLoading = true;
+                state.isAuth = false;
+            })
+            .addCase(autoLogin.fulfilled, (state, action)=>{
+                state.isLoading = false;
+                state.isAuth = true;
+                state.token = action.payload;
+            })
+            .addCase(autoLogin.rejected, (state, action)=>{
+                state.isLoading = false;
+                state.isAuth = false;
+                state.token = null;
             })
     }
 })

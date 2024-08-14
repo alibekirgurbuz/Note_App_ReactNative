@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 import React,{useState, useEffect} from 'react'
 import { collection, addDoc, getDocs, doc, deleteDoc, updateDoc, collectionGroup } from "firebase/firestore"; 
 import { db } from '../../firebaseConfig';
@@ -11,6 +11,7 @@ const HomePage = () => {
   const [data, setData] = useState([])
   // console.log("data:", data)
   const [isSaved, setIsSaved] = useState(false)
+  const [updateTheData, setUpdateTheData] = useState('')
 
 
   useEffect(() => {
@@ -42,10 +43,11 @@ const HomePage = () => {
         const querySnapshot = await getDocs(collection(db, "reactNativeLesson"));
       querySnapshot.forEach((doc) => {
 
-        allData.push(doc.data())
+        allData.push({...doc.data(), id: doc.id})
         // console.log(`${doc.id} => ${doc.data()}`);
       });
         setData(allData) 
+        
       } catch (error) {
         console.log(error);
       }
@@ -53,17 +55,22 @@ const HomePage = () => {
   }
 
   // DELETE DATA FROM FIREBASE
-  const deleteData = async () => {
-    
-      await deleteDoc(doc(db, "reactNativeLesson", ""));
+  const deleteData = async (value) => {
+      try {
+        await deleteDoc(doc(db, "reactNativeLesson", value));
+        console.log("Document deleted successfully!");
+      } catch (error) {
+        console.log(error);
+      }
+      
   }
   // UPDATE DATA FROM FIREBASE
-  const updateData = async () => {
+  const updateData = async (value) => {
     try {
-      const lessonData = doc(db, "reactNativeLesson", "t1lQ62E0k1nilc5rTVhF");
+      const lessonData = doc(db, "reactNativeLesson", value);
       // Set the "capital" field of the city 'DC'
       await updateDoc(lessonData, {
-        lesson: 14
+        content: updateTheData
       });
     } catch (error) {
       console.log(error);
@@ -71,15 +78,28 @@ const HomePage = () => {
   };
   return (
     <View style={styles.container}>
+      <TextInput
+        value={updateTheData}
+        onChangeText={setUpdateTheData}
+        placeholder='enter your name'
+        style={{borderWidth: 1, width: '60%', padding: 10, textAlign:'center', marginBottom: 20}}
+      />
+
+
+
       <Text>HomePage</Text>
       {data.map((value, index)=> {
         return (
-          <View key={index}>
+          <Pressable
+            
+            onPress={()=>[updateData(value.id), setIsSaved(isSaved === false ? true : false)]}
+            key={index}>
             <Text>ID: {index}</Text>
+            <Text>{value.id}</Text>
             <Text>{value.title}</Text>
             <Text>{value.content}</Text>
             <Text>{value.lesson}</Text>
-          </View>
+          </Pressable>
         )
       })}
 
