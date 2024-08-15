@@ -25,10 +25,6 @@ const LoginPage= ({navigation}) => {
     dispatch(autoLogin())
   }, [])
 
-
-
-
-
   return (
     <View style={styles.container}>
         <Text style={styles.welcome} >Welcome </Text>

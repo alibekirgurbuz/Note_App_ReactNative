@@ -3,6 +3,8 @@ import React,{useState, useEffect} from 'react'
 import { collection, addDoc, getDocs, doc, deleteDoc, updateDoc, collectionGroup } from "firebase/firestore"; 
 import { db } from '../../firebaseConfig';
 import CustomButton from '../components/CustomButton';
+import { useDispatch } from 'react-redux';
+import { logout } from '../redux/userSlice';
 
 
 
@@ -12,6 +14,8 @@ const HomePage = () => {
   // console.log("data:", data)
   const [isSaved, setIsSaved] = useState(false)
   const [updateTheData, setUpdateTheData] = useState('')
+
+  const dispatch = useDispatch();
 
 
   useEffect(() => {
@@ -62,7 +66,6 @@ const HomePage = () => {
       } catch (error) {
         console.log(error);
       }
-      
   }
   // UPDATE DATA FROM FIREBASE
   const updateData = async (value) => {
@@ -76,6 +79,20 @@ const HomePage = () => {
       console.log(error);
     }
   };
+
+
+
+  // Kulllanıcı çıkış işlemleri
+  const handleLogout = () => {
+    dispatch(logout())
+
+
+  }
+
+
+
+
+
   return (
     <View style={styles.container}>
       <TextInput
@@ -84,7 +101,6 @@ const HomePage = () => {
         placeholder='enter your name'
         style={{borderWidth: 1, width: '60%', padding: 10, textAlign:'center', marginBottom: 20}}
       />
-
 
 
       <Text>HomePage</Text>
@@ -130,6 +146,13 @@ const HomePage = () => {
         buttonColor={"blue"}
         pressedButtonColor={'gray'}
         handleOnpress={updateData}
+         />
+      <CustomButton
+        buttonText= {"LOGOUT"}
+        setWidth={"40%"}
+        buttonColor={"red"}
+        pressedButtonColor={'gray'}
+        handleOnpress={handleLogout}
          />       
     </View>
   )
