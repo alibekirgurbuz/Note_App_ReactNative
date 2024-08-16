@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
      getAuth,
      signOut, 
@@ -6,7 +7,7 @@ import {
      createUserWithEmailAndPassword,
      sendEmailVerification} 
      from 'firebase/auth'
-import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 export const login = createAsyncThunk('user/login', async({email, password}) => {
     console.log('username: ', email)
