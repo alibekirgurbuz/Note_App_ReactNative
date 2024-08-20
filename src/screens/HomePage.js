@@ -7,21 +7,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../redux/userSlice';
 
 import Animated, {LightSpeedInLeft,FlipInEasyX } from 'react-native-reanimated';
-
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-
+import {setUserInput} from '../redux/dataSlice';
 
 
 
 const HomePage = () => {
 
-  const {data} = useSelector(state=> state.data )
+  const {data, userInput} = useSelector(state=> state.data )
 
-
-  // console.log("data:", data)
-  const [isSaved, setIsSaved] = useState(false)
-  const [updateTheData, setUpdateTheData] = useState('')
 
   const dispatch = useDispatch();
 
@@ -38,21 +33,6 @@ const HomePage = () => {
       console.error("Error adding document: ", e);
     }
   }
-  // GET DATA FROM FIREBASE
-  const getData = async () => {
-      const allData = []
-      try {
-        const querySnapshot = await getDocs(collection(db, "reactNativeLesson"));
-      querySnapshot.forEach((doc) => {
-
-        allData.push({...doc.data(), id: doc.id})
-        // console.log(`${doc.id} => ${doc.data()}`);
-      });
-        setData(allData) 
-      } catch (error) {
-        console.log(error);
-      }
-  }
   // DELETE DATA FROM FIREBASE
   const deleteData = async (value) => {
       try {
@@ -63,20 +43,24 @@ const HomePage = () => {
       }
   }
   // UPDATE DATA FROM FIREBASE
-  const updateData = async (value) => {
-    try {
-      const lessonData = doc(db, "reactNativeLesson", value);
-      // Set the "capital" field of the city 'DC'
-      await updateDoc(lessonData, {
-        content: updateTheData
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const updateData = async (value) => {
+  //   try {
+  //     const lessonData = doc(db, "reactNativeLesson", value);
+  //     // Set the "capital" field of the city 'DC'
+  //     await updateDoc(lessonData, {
+  //       content: updateTheData
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
   // Kulllanıcı çıkış işlemleri
   const handleLogout = () => {
     dispatch(logout())
+  }
+
+  const handleTextInput =(text) => {
+    dispatch(setUserInput(text))
   }
   const renderItem = ({item, index}) => {
     return (
@@ -112,19 +96,27 @@ const HomePage = () => {
         keyExtractor={item => item.id}
         renderItem={renderItem}
       />
-      <CustomButton
-        buttonText= {"Get Data"}
-        setWidth={"40%"}
+      <View style={styles.userInputContainer} >
+
+        <TextInput
+        value={userInput}
+        onChangeText={handleTextInput}
+        placeholder='Add To Do'
+        style={styles.textInput}
+        placeholderTextColor={'darkblue'}
+        /> 
+        <CustomButton
+        buttonText= {"Save"}
+        flexValue={1}
         buttonColor={"blue"}
         pressedButtonColor={'gray'}
-        handleOnpress={getData}
-         />
-      <TextInput
-        value={updateTheData}
-        onChangeText={setUpdateTheData}
-        placeholder='enter your name'
-        style={{borderWidth: 1, width: '60%', padding: 10, textAlign:'center', marginBottom: 20, marginTop: 80}}
-      />   
+        handleOnpress={() => dispatch(saveData(userInput))}
+        />
+      
+      </View>
+ 
+
+        
     </View>
   )
 }
@@ -144,7 +136,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 10,
     marginBottom: 10,
-    flexDirection:'row', justifyContent:'space-between'
+    flexDirection:'row',
+    justifyContent:'space-between'
   },
   flatlist: {
     width: '90%',
@@ -175,7 +168,24 @@ const styles = StyleSheet.create({
     width: '10%',
     padding: 10,
     flex: 1,
-  }
-  
+  },
+  userInputContainer: { 
+    width: '90%',
+    flexDirection: 'row',
+    marginBottom: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    justifyContent: 'space-between',
+  },
+  textInput: {
+    flex: 3,
+    borderWidth: 0.2,
+    BorderRadius: 10,
+    borderWidth: 1,
+    paddingVertical: 5,
+    textAlign: 'center',
+    marginRight: 5,
+    borderRadius: 10,
+  },
 
 })

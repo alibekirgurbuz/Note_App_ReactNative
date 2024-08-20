@@ -21,12 +21,12 @@ const AppWrapper = () => {
 const App = () => {
   const dispatch = useDispatch()
 
-  const{isLoading}=useSelector(state => state.data)
+  const{isLoading, isSaved}=useSelector(state => state.data)
 
   useEffect(() => {
     dispatch(getAllData())
 
-  }, [])
+  }, [dispatch,isSaved])
   
 
 

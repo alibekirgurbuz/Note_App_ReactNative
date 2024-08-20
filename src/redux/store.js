@@ -1,14 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userReducer from "./userSlice";
-import { thunk } from "redux-thunk";
+import thunk from "redux-thunk";
 import dataReducer from "./dataSlice";
+import userReducer from "./userSlice";
 
 export const store = configureStore({
     reducer: {
         user: userReducer,
         data: dataReducer,
-
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false})
-})
-
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false}).concat(thunk),
+});
+  
+  export default store;

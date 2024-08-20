@@ -3,6 +3,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { collection, addDoc, getDocs, doc, deleteDoc, updateDoc} from "firebase/firestore"; 
 import { db } from '../../firebaseConfig';
 
+
+
+// Fribase de olan tüm verileri çekmeyi sağllar
+
+
 export const getAllData = createAsyncThunk('data/getData', async () => {
     const allData = []
     try {
@@ -17,19 +22,40 @@ export const getAllData = createAsyncThunk('data/getData', async () => {
       console.log(error);
       throw error;
     }
+})
+// Kullanıcının girdiği veriyi firebase e kaydeder.
+export const saveData = createAsyncThunk('data/saveData', async (value) => {
+    try {
+        const docRef = await addDoc(collection(db, "todoList"), {
+            content: value
+        });
+        console.log("Document written with ID: ", docRef.id);
+        } catch (e) {
+        console.error("Error adding document: ", e);
+        throw error
+        }
 
 })
 
 
+
 const initialState = {
     data:[],
+    userInput: null,
     isLoading: false,
+    isSaved: false,
     error: null,
 }
 export const dataSlice = createSlice({
     name: 'data',
     initialState,
-    reducers: {},
+    reducers: {
+        setUserInput: (state, action)=>{
+            state.userInput = action.payload
+        
+       }     
+    },
+      
     extraReducers: (builder)=>{
         builder
         .addCase(getAllData.pending, (state)=>{
@@ -43,7 +69,20 @@ export const dataSlice = createSlice({
             state.isLoading = false;
             state.error = action.payload;
         })
+        .addCase(saveData.pending, (state)=>{
+            state.isLoading = true;
+        })
+        .addCase(saveData.fulfilled, (state, action)=>{
+            state.isLoading = false;
+            state.isSaved = !state.isSaved;
+            state.userInput = null;
+        })
+        .addCase(saveData.rejected, (state, action)=>{
+            state.isLoading = false;
+            state.error = action.payload;
+        })
     }
 })
-
+export const {setUserInput} = dataSlice.actions;
 export default dataSlice.reducer;
+
