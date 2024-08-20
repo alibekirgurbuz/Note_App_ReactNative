@@ -3,36 +3,23 @@ import React,{useState, useEffect} from 'react'
 import { collection, addDoc, getDocs, doc, deleteDoc, updateDoc} from "firebase/firestore"; 
 import { db } from '../../firebaseConfig';
 import CustomButton from '../components/CustomButton';
-import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../redux/userSlice';
 
+import { useDispatch, useSelector } from 'react-redux';
 import Animated, {LightSpeedInLeft,FlipInEasyX } from 'react-native-reanimated';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import {setUserInput} from '../redux/dataSlice';
-
+import {setUserInput, saveData} from '../redux/dataSlice';
+import { logout } from '../redux/userSlice';
 
 
 const HomePage = () => {
 
   const {data, userInput} = useSelector(state=> state.data )
-
-
   const dispatch = useDispatch();
 
-  //SEND DATA TO FIREFASE
-  const saveData = async () => {
-    try {
-      const docRef = await addDoc(collection(db, "todoList"), {
-        title: "Zero the Hero",
-        content: "React Native tutorial",
-        lesson: 18
-      });
-      console.log("Document written with ID: ", docRef.id);
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
-  }
+
+  console.log("user input", userInput)
+  
   // DELETE DATA FROM FIREBASE
   const deleteData = async (value) => {
       try {

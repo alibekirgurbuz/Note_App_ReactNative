@@ -5,16 +5,15 @@ import { db } from '../../firebaseConfig';
 
 
 
-// Fribase de olan tüm verileri çekmeyi sağllar
-
+// Fribase de olan tüm verileri çekmeyi sağlar
 
 export const getAllData = createAsyncThunk('data/getData', async () => {
     const allData = []
     try {
       const querySnapshot = await getDocs(collection(db, "todoList"));
-      querySnapshot.forEach((doc) => {
-      allData.push({...doc.data(), id: doc.id})
-      // console.log(`${doc.id} => ${doc.data()}`);
+        querySnapshot.forEach((doc) => {      
+        // console.log(`${doc.id} => ${doc.data()}`);
+       allData.push({...doc.data(), id: doc.id})
     });
     return allData;
 
@@ -39,6 +38,7 @@ export const saveData = createAsyncThunk('data/saveData', async (value) => {
 
 
 
+
 const initialState = {
     data:[],
     userInput: null,
@@ -46,6 +46,8 @@ const initialState = {
     isSaved: false,
     error: null,
 }
+
+
 export const dataSlice = createSlice({
     name: 'data',
     initialState,

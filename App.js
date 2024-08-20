@@ -25,8 +25,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(getAllData())
-
-  }, [dispatch,isSaved])
+  }, [isSaved])
   
 
 

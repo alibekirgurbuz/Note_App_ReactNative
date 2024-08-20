@@ -8,7 +8,7 @@ export const store = configureStore({
         user: userReducer,
         data: dataReducer,
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false}).concat(thunk),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false})
 });
   
   export default store;
